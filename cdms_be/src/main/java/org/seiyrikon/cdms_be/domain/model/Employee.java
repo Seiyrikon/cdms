@@ -19,31 +19,31 @@ public class Employee {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "employee_id", nullable = false)
-    private Long employee_id;
+    private Long employeeId;
 
     @ManyToOne
     @JoinColumn(name = "employee_department_id", referencedColumnName = "department_id", nullable = true)
     private Department department;
 
     @Column(name = "employee_name", nullable = false, length = 50)
-    private String employee_name;
+    private String employeeName;
     
     @Column(name = "employee_email", nullable = false, unique = true, length = 100)
-    private String employee_email;
+    private String employeeEmail;
     
     @Column(name = "employee_phone", nullable = false, length = 15)
-    private String employee_phone;
+    private String employeePhone;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime created_at;
-
+    private LocalDateTime createdAt;
+    
     protected Employee() {}
 
-    public Employee(Department department, String employee_name, String employee_email, String employee_phone) {
+    public Employee(Department department, String employeeName, String employeeEmail, String employeePhone) {
         this.department = department;
-        this.employee_name = employee_name;
-        this.employee_email = employee_email;
-        this.employee_phone = employee_phone;
-        this.created_at = LocalDateTime.now();
+        this.employeeName = employeeName;
+        this.employeeEmail = employeeEmail;
+        this.employeePhone = employeePhone;
+        this.createdAt = LocalDateTime.now();
     }
 }

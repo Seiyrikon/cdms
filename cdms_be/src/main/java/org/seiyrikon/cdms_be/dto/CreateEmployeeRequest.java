@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class CreateEmployeeRequest {
     private Department department;
-    private String employee_name, employee_email, employee_phone;
+    private String employeeName, employeeEmail, employeePhone;
 }

@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class DepartmentDto {
-    private Long department_id;
-    private String department_name, department_description;
+    private Long departmentId;
+    private String departmentName, departmentDescription;
 
-    public DepartmentDto(Long department_id, String department_name, String department_description) {
-        this.department_id = department_id;
-        this.department_name = department_name;
-        this.department_description = department_description;
+    public DepartmentDto(Long departmentId, String departmentName, String departmentDescription) {
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
+        this.departmentDescription = departmentDescription;
     }
 }

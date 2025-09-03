@@ -17,22 +17,22 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "department_id", nullable = false)
-    private Long department_id;
+    private Long departmentId;
 
-    @Column(name = "department_name", nullable = false, length = 100)
-    private String department_name;
+    @Column(name = "department_name", nullable = false, length = 50)
+    private String departmentName;
 
     @Column(name = "department_description", nullable = true, length = 100)
-    private String department_description;
+    private String departmentDescription;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     protected Department() {}
 
-    public Department(String department_name, String department_description) {
-        this.department_name = department_name;
-        this.department_description = department_description;
-        this.created_at = LocalDateTime.now();
+    public Department(String departmentName, String departmentDescription) {
+        this.departmentName = departmentName;
+        this.departmentDescription = departmentDescription;
+        this.createdAt = LocalDateTime.now();
     }
 }

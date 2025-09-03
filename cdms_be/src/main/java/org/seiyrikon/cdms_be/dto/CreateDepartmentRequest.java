@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class CreateDepartmentRequest {
-    private String department_name, department_description;
+    private String departmentName, departmentDescription;
 }
