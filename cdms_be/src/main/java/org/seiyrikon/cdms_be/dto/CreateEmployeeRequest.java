@@ -1,9 +1,11 @@
 package org.seiyrikon.cdms_be.dto;
 
+import org.seiyrikon.cdms_be.domain.model.Department;
+
 import lombok.Data;
 
 @Data
 public class CreateEmployeeRequest {
-    private Long employee_department_id;
+    private Department department;
     private String employee_name, employee_email, employee_phone;
 }
