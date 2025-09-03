@@ -1,5 +1,8 @@
 package org.seiyrikon.cdms_be.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.seiyrikon.cdms_be.domain.model.Employee;
 import org.seiyrikon.cdms_be.dto.CreateEmployeeRequest;
 import org.seiyrikon.cdms_be.dto.EmployeeDto;
@@ -22,6 +25,13 @@ public class EmployeeServiceImpl implements EmployeeService{
         Employee employee = new Employee(request.getDepartment(), request.getEmployee_name(), request.getEmployee_email(), request.getEmployee_phone());
         Employee savedEmployee = employeeRepository.save(employee);
         return EmployeeMapper.toDto(savedEmployee);
+    }
+
+    @Override
+    public List<EmployeeDto> getAllEmployees() {
+        return employeeRepository.findAll().stream()
+                .map(EmployeeMapper::toDto)
+                .collect(Collectors.toList());
     }
     
 }
