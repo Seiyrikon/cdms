@@ -1,11 +1,15 @@
 package org.seiyrikon.cdms_be.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.seiyrikon.cdms_be.domain.model.Department;
 import org.seiyrikon.cdms_be.dto.DepartmentDto;
 
-public class DepartmentMapper {
+@Mapper(componentModel = "spring")
+public interface DepartmentMapper {
     
-    public static DepartmentDto toDto(Department d) {
-        return new DepartmentDto(d.getDepartment_id(), d.getDepartment_name(), d.getDepartment_description());
-    }
+    DepartmentDto toDto(Department department);
+
+    @Mapping(target = "createdAt", ignore = true)
+    Department toEntity(DepartmentDto dto);
 }
