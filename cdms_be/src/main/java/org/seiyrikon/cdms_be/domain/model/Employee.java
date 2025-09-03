@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -19,8 +21,9 @@ public class Employee {
     @Column(name = "employee_id", nullable = false)
     private Long employee_id;
 
-    @Column(name = "employee_department_id", nullable = true)
-    private Long employee_department_id;
+    @ManyToOne
+    @JoinColumn(name = "employee_department_id", referencedColumnName = "department_id", nullable = true)
+    private Department department;
 
     @Column(name = "employee_name", nullable = false, length = 50)
     private String employee_name;
@@ -36,8 +39,8 @@ public class Employee {
 
     protected Employee() {}
 
-    public Employee(Long employee_department_id, String employee_name, String employee_email, String employee_phone) {
-        this.employee_department_id = employee_department_id;
+    public Employee(Department department, String employee_name, String employee_email, String employee_phone) {
+        this.department = department;
         this.employee_name = employee_name;
         this.employee_email = employee_email;
         this.employee_phone = employee_phone;
