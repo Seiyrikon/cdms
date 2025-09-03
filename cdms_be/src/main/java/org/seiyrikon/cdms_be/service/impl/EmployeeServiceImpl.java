@@ -33,5 +33,12 @@ public class EmployeeServiceImpl implements EmployeeService{
                 .map(EmployeeMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public EmployeeDto getEmployeeById(Long id) {
+        return employeeRepository.findById(id)
+                .map(EmployeeMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
     
 }

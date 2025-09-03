@@ -8,4 +8,5 @@ import org.seiyrikon.cdms_be.dto.EmployeeDto;
 public interface EmployeeService {
     EmployeeDto createEmployee(CreateEmployeeRequest request);
     List<EmployeeDto> getAllEmployees();
+    EmployeeDto getEmployeeById(Long id);
 }
