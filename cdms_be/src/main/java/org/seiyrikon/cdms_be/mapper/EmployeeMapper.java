@@ -1,11 +1,17 @@
 package org.seiyrikon.cdms_be.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.seiyrikon.cdms_be.domain.model.Employee;
 import org.seiyrikon.cdms_be.dto.EmployeeDto;
 
-public class EmployeeMapper {
+@Mapper(componentModel = "spring")
+public interface EmployeeMapper {
     
-    public static EmployeeDto toDto(Employee e) {
-        return new EmployeeDto(e.getEmployee_id(), e.getDepartment(), e.getEmployee_name(), e.getEmployee_email(), e.getEmployee_phone());
-    }
+    @Mapping(source = "department", target = "department")
+    EmployeeDto toDto(Employee employee);
+
+    @Mapping(source = "department", target = "department")
+    @Mapping(target = "createdAt", ignore = true)
+    Employee toEntity(EmployeeDto employeeDto);
 }
