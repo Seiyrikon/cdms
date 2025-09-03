@@ -3,10 +3,12 @@ package org.seiyrikon.cdms_be.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.seiyrikon.cdms_be.domain.model.Department;
 import org.seiyrikon.cdms_be.domain.model.Employee;
 import org.seiyrikon.cdms_be.dto.CreateEmployeeRequest;
 import org.seiyrikon.cdms_be.dto.EmployeeDto;
 import org.seiyrikon.cdms_be.mapper.EmployeeMapper;
+import org.seiyrikon.cdms_be.repository.DepartmentRepository;
 import org.seiyrikon.cdms_be.repository.EmployeeRepository;
 import org.seiyrikon.cdms_be.service.EmployeeService;
 import org.springframework.stereotype.Service;
@@ -15,29 +17,36 @@ import org.springframework.stereotype.Service;
 public class EmployeeServiceImpl implements EmployeeService{
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeMapper employeeMapper;
+    private final DepartmentRepository departmentRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, DepartmentRepository departmentRepository) {
         this.employeeRepository = employeeRepository;
+        this.employeeMapper = employeeMapper;
+        this.departmentRepository = departmentRepository;
     }
 
     @Override
     public EmployeeDto createEmployee(CreateEmployeeRequest request) {
-        Employee employee = new Employee(request.getDepartment(), request.getEmployee_name(), request.getEmployee_email(), request.getEmployee_phone());
+        Department department = departmentRepository.findById(request.getDepartment().getDepartmentId())
+                                .orElseThrow(() -> new RuntimeException("Department not found"));
+
+        Employee employee = new Employee(department, request.getEmployeeName(), request.getEmployeeEmail(), request.getEmployeePhone());
         Employee savedEmployee = employeeRepository.save(employee);
-        return EmployeeMapper.toDto(savedEmployee);
+        return employeeMapper.toDto(savedEmployee);
     }
 
     @Override
     public List<EmployeeDto> getAllEmployees() {
         return employeeRepository.findAll().stream()
-                .map(EmployeeMapper::toDto)
+                .map(employeeMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public EmployeeDto getEmployeeById(Long id) {
         return employeeRepository.findById(id)
-                .map(EmployeeMapper::toDto)
+                .map(employeeMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
     
