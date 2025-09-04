@@ -68,5 +68,16 @@ public class EmployeeServiceImpl implements EmployeeService{
 
         return employeeMapper.toDto(updatedEmployee);
     }
+
+    @Override
+    public String deleteEmployee(Long id) {
+        if(!employeeRepository.existsById(id)) {
+            throw new RuntimeException("Employee not found with id " + id);
+        }
+
+        employeeRepository.deleteById(id);
+
+        return "Employee with id " + id + " has been deleted successfully!";
+    }
     
 }
