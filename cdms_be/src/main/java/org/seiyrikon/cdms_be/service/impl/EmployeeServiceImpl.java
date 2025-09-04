@@ -7,6 +7,7 @@ import org.seiyrikon.cdms_be.domain.model.Department;
 import org.seiyrikon.cdms_be.domain.model.Employee;
 import org.seiyrikon.cdms_be.dto.CreateEmployeeRequest;
 import org.seiyrikon.cdms_be.dto.EmployeeDto;
+import org.seiyrikon.cdms_be.dto.UpdateEmployeeRequest;
 import org.seiyrikon.cdms_be.mapper.EmployeeMapper;
 import org.seiyrikon.cdms_be.repository.DepartmentRepository;
 import org.seiyrikon.cdms_be.repository.EmployeeRepository;
@@ -48,6 +49,24 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeRepository.findById(id)
                 .map(employeeMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public EmployeeDto updateEmployee(Long id, UpdateEmployeeRequest request) {
+        Employee employee = employeeRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("Employee not found with id " + id));
+
+        Department department = departmentRepository.findById(request.getDepartment().getDepartmentId())
+                                .orElseThrow(() -> new RuntimeException("Department not found with id " + request.getDepartment().getDepartmentId()));
+
+        employee.setEmployeeName(request.getEmployeeName());
+        employee.setEmployeeEmail(request.getEmployeeEmail());
+        employee.setEmployeePhone(request.getEmployeePhone());
+        employee.setDepartment(department);
+
+        Employee updatedEmployee = employeeRepository.save(employee);
+
+        return employeeMapper.toDto(updatedEmployee);
     }
     
 }
