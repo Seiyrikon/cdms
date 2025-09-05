@@ -82,14 +82,14 @@ public class EmployeeServiceImpl implements EmployeeService, SearchService{
     }
 
     @Override
-    public EmployeeDto search(String name) {
+    public EmployeeDto searchByName(String name) {
         return employeeRepository.findByEmployeeName(name)
                 .map(employeeMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Employee not found with name " + name));
     }
 
     @Override
-    public List<EmployeeDto> search(Long id) {
+    public List<EmployeeDto> searchByDepartment(Long id) {
         return employeeRepository.findAllByDepartment_DepartmentId(id)
                 .stream()
                 .map(employeeMapper::toDto)

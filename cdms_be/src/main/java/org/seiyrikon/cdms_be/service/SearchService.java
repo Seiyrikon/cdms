@@ -5,6 +5,6 @@ import java.util.List;
 import org.seiyrikon.cdms_be.dto.EmployeeDto;
 
 public interface SearchService {
-    EmployeeDto search(String name);
-    List<EmployeeDto> search(Long id);
+    EmployeeDto searchByName(String name);
+    List<EmployeeDto> searchByDepartment(Long id);
 }
