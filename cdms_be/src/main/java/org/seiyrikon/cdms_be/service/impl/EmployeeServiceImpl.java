@@ -87,5 +87,13 @@ public class EmployeeServiceImpl implements EmployeeService, SearchService{
                 .map(employeeMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Employee not found with name " + name));
     }
+
+    @Override
+    public List<EmployeeDto> search(Long id) {
+        return employeeRepository.findAllByDepartment_DepartmentId(id)
+                .stream()
+                .map(employeeMapper::toDto)
+                .collect(Collectors.toList());
+    }
     
 }

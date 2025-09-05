@@ -66,9 +66,15 @@ public class EmployeeRestController {
         return ResponseEntity.ok(employeeService.deleteEmployee(id));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/by-name")
     @Operation(summary = "Search employee by name", description = "Find the employee using name, returns the information of the employee")
-    public ResponseEntity<EmployeeDto> search(@RequestParam String name) {
+    public ResponseEntity<EmployeeDto> searchByName(@RequestParam String name) {
         return ResponseEntity.ok(searchService.search(name));
+    }
+
+    @GetMapping("/search/by-department")
+    @Operation(summary = "Search employee by department", description = "Find the employee using department, returns the information of the employees")
+    public ResponseEntity<List<EmployeeDto>> searchByDepartment(@RequestParam Long id) {
+        return ResponseEntity.ok(searchService.search(id));
     }
 }
