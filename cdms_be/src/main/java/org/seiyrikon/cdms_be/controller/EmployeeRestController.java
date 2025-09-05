@@ -7,6 +7,7 @@ import org.seiyrikon.cdms_be.dto.EmployeeDto;
 import org.seiyrikon.cdms_be.dto.UpdateEmployeeRequest;
 import org.seiyrikon.cdms_be.service.EmployeeService;
 import org.seiyrikon.cdms_be.service.FilterService;
+import org.seiyrikon.cdms_be.service.ReportService;
 import org.seiyrikon.cdms_be.service.SearchService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,11 +33,13 @@ public class EmployeeRestController {
     private final EmployeeService employeeService;
     private final SearchService searchService;
     private final FilterService filterService;
+    private final ReportService reportService;
 
-    public EmployeeRestController(EmployeeService employeeService, SearchService searchService, FilterService filterService) {
+    public EmployeeRestController(EmployeeService employeeService, SearchService searchService, FilterService filterService, ReportService reportService) {
         this.employeeService = employeeService;
         this.searchService = searchService;
         this.filterService = filterService;
+        this.reportService = reportService;
     }
 
     @PostMapping
@@ -85,6 +88,12 @@ public class EmployeeRestController {
     @Operation(summary = "Filter employee by department", description = "Filter the employees using department, returns the information of the employees")
     public ResponseEntity<List<EmployeeDto>> filterByDepartment(@RequestParam Long id) {
         return ResponseEntity.ok(filterService.filterByDepartment(id));
+    }
+    
+    @GetMapping("/report/employees-by-department")
+    @Operation(summary = "Count employees by department", description = "Count the employees using department, returns the count of the employees")
+    public ResponseEntity<Long> countEmployeesByDepartment(@RequestParam Long id) {
+        return ResponseEntity.ok(reportService.countEmployeesByDepartment(id));
     }
     
 }

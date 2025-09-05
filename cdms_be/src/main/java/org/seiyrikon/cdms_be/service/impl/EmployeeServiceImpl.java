@@ -13,11 +13,12 @@ import org.seiyrikon.cdms_be.repository.DepartmentRepository;
 import org.seiyrikon.cdms_be.repository.EmployeeRepository;
 import org.seiyrikon.cdms_be.service.EmployeeService;
 import org.seiyrikon.cdms_be.service.FilterService;
+import org.seiyrikon.cdms_be.service.ReportService;
 import org.seiyrikon.cdms_be.service.SearchService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService, SearchService, FilterService{
+public class EmployeeServiceImpl implements EmployeeService, SearchService, FilterService, ReportService{
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
@@ -103,6 +104,11 @@ public class EmployeeServiceImpl implements EmployeeService, SearchService, Filt
                 .stream()
                 .map(employeeMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Long countEmployeesByDepartment(Long id) {
+        return employeeRepository.countByDepartment_DepartmentId(id);
     }
     
 }
