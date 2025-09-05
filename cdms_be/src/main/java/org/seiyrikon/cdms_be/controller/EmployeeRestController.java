@@ -6,7 +6,9 @@ import org.seiyrikon.cdms_be.dto.CreateEmployeeRequest;
 import org.seiyrikon.cdms_be.dto.EmployeeDto;
 import org.seiyrikon.cdms_be.dto.UpdateEmployeeRequest;
 import org.seiyrikon.cdms_be.service.EmployeeService;
+import org.seiyrikon.cdms_be.service.SearchService;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,9 +29,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class EmployeeRestController {
 
     private final EmployeeService employeeService;
+    private final SearchService searchService;
 
-    public EmployeeRestController(EmployeeService employeeService) {
+    public EmployeeRestController(EmployeeService employeeService, SearchService searchService) {
         this.employeeService = employeeService;
+        this.searchService = searchService;
     }
 
     @PostMapping
@@ -56,9 +60,15 @@ public class EmployeeRestController {
         return ResponseEntity.ok(employeeService.updateEmployee(id, request));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "Delete employee by ID", description = "Deletes the record of the employee")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         return ResponseEntity.ok(employeeService.deleteEmployee(id));
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Search employee by name", description = "Find the employee using name, returns the information of the employee")
+    public ResponseEntity<EmployeeDto> search(@RequestParam String name) {
+        return ResponseEntity.ok(searchService.search(name));
     }
 }

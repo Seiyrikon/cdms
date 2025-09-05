@@ -12,10 +12,11 @@ import org.seiyrikon.cdms_be.mapper.EmployeeMapper;
 import org.seiyrikon.cdms_be.repository.DepartmentRepository;
 import org.seiyrikon.cdms_be.repository.EmployeeRepository;
 import org.seiyrikon.cdms_be.service.EmployeeService;
+import org.seiyrikon.cdms_be.service.SearchService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService, SearchService{
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
@@ -78,6 +79,13 @@ public class EmployeeServiceImpl implements EmployeeService{
         employeeRepository.deleteById(id);
 
         return "Employee with id " + id + " has been deleted successfully!";
+    }
+
+    @Override
+    public EmployeeDto search(String name) {
+        return employeeRepository.findByEmployeeName(name)
+                .map(employeeMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Employee not found with name " + name));
     }
     
 }
