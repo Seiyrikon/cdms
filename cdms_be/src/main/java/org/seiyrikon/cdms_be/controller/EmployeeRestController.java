@@ -6,6 +6,7 @@ import org.seiyrikon.cdms_be.dto.CreateEmployeeRequest;
 import org.seiyrikon.cdms_be.dto.EmployeeDto;
 import org.seiyrikon.cdms_be.dto.UpdateEmployeeRequest;
 import org.seiyrikon.cdms_be.service.EmployeeService;
+import org.seiyrikon.cdms_be.service.FilterService;
 import org.seiyrikon.cdms_be.service.SearchService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,10 +31,12 @@ public class EmployeeRestController {
 
     private final EmployeeService employeeService;
     private final SearchService searchService;
+    private final FilterService filterService;
 
-    public EmployeeRestController(EmployeeService employeeService, SearchService searchService) {
+    public EmployeeRestController(EmployeeService employeeService, SearchService searchService, FilterService filterService) {
         this.employeeService = employeeService;
         this.searchService = searchService;
+        this.filterService = filterService;
     }
 
     @PostMapping
@@ -73,8 +76,15 @@ public class EmployeeRestController {
     }
 
     @GetMapping("/search/by-department")
-    @Operation(summary = "Search employee by department", description = "Find the employee using department, returns the information of the employees")
+    @Operation(summary = "Search employee by department", description = "Find the employees using department, returns the information of the employees")
     public ResponseEntity<List<EmployeeDto>> searchByDepartment(@RequestParam Long id) {
         return ResponseEntity.ok(searchService.searchByDepartment(id));
     }
+
+    @GetMapping("/filter/by-department")
+    @Operation(summary = "Filter employee by department", description = "Filter the employees using department, returns the information of the employees")
+    public ResponseEntity<List<EmployeeDto>> filterByDepartment(@RequestParam Long id) {
+        return ResponseEntity.ok(filterService.filterByDepartment(id));
+    }
+    
 }
