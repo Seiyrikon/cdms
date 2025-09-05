@@ -1,5 +1,7 @@
 package org.seiyrikon.cdms_be.service.impl;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,8 @@ import org.seiyrikon.cdms_be.service.FilterService;
 import org.seiyrikon.cdms_be.service.ReportService;
 import org.seiyrikon.cdms_be.service.SearchService;
 import org.springframework.stereotype.Service;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService, SearchService, FilterService, ReportService{
@@ -109,6 +113,30 @@ public class EmployeeServiceImpl implements EmployeeService, SearchService, Filt
     @Override
     public Long countEmployeesByDepartment(Long id) {
         return employeeRepository.countByDepartment_DepartmentId(id);
+    }
+
+    @Override
+    public void exportToCsv(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=employees.csv");
+        
+        List<EmployeeDto> employees = employeeRepository.findAll()
+                                        .stream()
+                                        .map(employeeMapper::toDto)
+                                        .collect(Collectors.toList());
+
+        PrintWriter writer = response.getWriter();
+
+        writer.println("ID, Employee Name, Department, Employee Email, Employee Phone");
+        for(EmployeeDto e : employees) {
+            writer.println(String.format("%s, %s, %s, %s, %s", 
+                                        e.getEmployeeId().toString(), 
+                                        e.getEmployeeName().toString(), 
+                                        e.getDepartment().getDepartmentName().toString(), 
+                                        e.getEmployeeEmail().toString(), 
+                                        e.getEmployeePhone().toString()));
+        }
+        writer.flush();
     }
     
 }

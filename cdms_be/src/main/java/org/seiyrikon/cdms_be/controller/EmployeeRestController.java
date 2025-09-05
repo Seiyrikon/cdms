@@ -1,5 +1,6 @@
 package org.seiyrikon.cdms_be.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.seiyrikon.cdms_be.dto.CreateEmployeeRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -95,5 +97,11 @@ public class EmployeeRestController {
     public ResponseEntity<Long> countEmployeesByDepartment(@RequestParam Long id) {
         return ResponseEntity.ok(reportService.countEmployeesByDepartment(id));
     }
+
+    @GetMapping("/report/export")
+    public void exportToCsv(HttpServletResponse response) throws IOException {
+        reportService.exportToCsv(response);
+    }
+    
     
 }
